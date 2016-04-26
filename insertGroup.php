@@ -8,15 +8,20 @@
 ?>
 
 <?php
+header("Content-Type: text/plain");
 include('databaseConnection.php');
 
 $group_id   = $_POST["group_id"];
 $operation_mode   = $_POST["operationMode"];
 $group_name    = $_POST["groupName"];
-$group_member     = $_POST["groupMember"];
+$group_member     = $_POST['member'];
+
+$member = implode(",",$group_member);
 
 if($operation_mode == 0){
-    $insert = "INSERT INTO group VALUES(null,'$group_name', '$group_member') ";
+    $insert = "INSERT INTO contactGroup VALUES(null,'$group_name', '$member'); ";
+
+    echo $insert;
 
     if($conn ->query($insert)=== true){
 
@@ -43,6 +48,6 @@ if($operation_mode == 1){
 
 $conn->close();
 
-header("Location:index.php");
+header("Location:group.php");
 
 ?>

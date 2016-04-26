@@ -17,6 +17,7 @@
 
     <link href="bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet">
     <link href="media/css/jquery.dataTables.min.css" type="text/css" rel="stylesheet">
+    <link href="dist/css/select2.min.css" type="text/css" rel="stylesheet">
 
     <script src="bootstrap/js/jquery-1.12.0.min.js" type="text/javascript"></script>
     <script src="bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
@@ -24,9 +25,9 @@
     <script src="contact.js" type="text/javascript"></script>
 
     <script src="media/js/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="dist/js/select2.min.js" type="text/javascript"></script>
 
-    <script src="tokenField/js/bootstrap-tokenfield.js" type="application/javascript"></script>
-    <style>
+   <style>
         #container{
             width: auto;
             margin: auto;
@@ -92,10 +93,11 @@
 
             <tbody>
             <?php
-/*
+
             include('databaseConnection.php');
 
-            $select = 'SELECT *from group';
+            $select = 'SELECT *from contactGroup';
+
 
             $result = $conn->query($select);
 
@@ -108,7 +110,7 @@
                 echo '
                         <tr id="'.$row["group_id"].'">
                             <td id="group_name">'.$row["group_name"].'</td>
-                            <td id="member">'.$row["member"].'</td>
+                            <td id="group_member">'.$row["group_member"].'</td>
                             <td>
                                 <button id="edit-contact" type="button" class="glyphicon glyphicon-edit btn btn-primary " onclick="editGroup('.$row["group_id"].')" ></button>
                                 <button type="button" class="glyphicon glyphicon-minus-sign btn btn-danger" onclick="deleteGroup('.$row["group_id"].')" title="DELETE"></button>
@@ -118,7 +120,7 @@
                     ';
             }
 
-            */?>
+            ?>
             </tbody>
 
         </table>
@@ -160,7 +162,30 @@
                         <label class="control-label col-sm-4" for="member">Members <span style="color: red">*</span></label>
 
                         <div class="col-sm-8">
-                            <input class="form-control" type="text" name="member" id="member">
+
+
+                            <select class="js-example-basic-multiple form-control" multiple="multiple" name="member[]" id="member" style="width: 100%">
+                                <?php
+
+                                include('databaseConnection.php');
+
+                                $select = 'SELECT *from contact';
+
+                                $result = $conn->query($select);
+
+                                if(!$result){
+                                    die('Could not get Data'.mysql_errr());
+                                }
+
+                                while($row = mysqli_fetch_assoc($result)){
+
+                                    echo '
+                                        <option value="'.$row["first_name"].' '.$row["middle_name"].' '.$row["last_name"].'">'.$row["first_name"].' '.$row["middle_name"].' '.$row["last_name"].'</option>
+                                    ';
+                                }
+
+                                ?>
+                            </select>
                         </div>
                     </div>
 
@@ -198,13 +223,7 @@
         "lengthMenu": [ [6, 12, 24, -1], [6, 12, 24, "All"] ]
     });
 
-    $('#member').tokenfield({
-        autocomplete: {
-            source: ['red','blue','green','yellow','violet','brown','purple','black','white'],
-            delay: 100
-        },
-        showAutocompleteOnFocus: true
-    })
+    $('select').select2()
 
 </script>
 </body>
