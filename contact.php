@@ -20,10 +20,12 @@
     $address       = $_POST["address"];
     $service_provider = $_POST["serviceProvider"];
 
-    if($hiddenField == 0){
-        $insert = "INSERT INTO contact VALUES(null,'$first_name', '$last_name', '$mobile_number', '$address', '$service_provider') ";
+    $created_date = date("Y-m-d");
 
-        if($conn ->query($insert)=== true){
+    if($hiddenField == 0){
+        $insert = "INSERT INTO contact VALUES(NULL ,'$first_name', '$last_name', '$mobile_number', '$address', '$service_provider','$created_date',NULL ) ";
+        echo $insert;
+        if($conn ->query($insert)){
 
             echo "<br>"."Successfully Added"."<br>";
 
@@ -34,10 +36,10 @@
     }
     else{
 
-        $update = "UPDATE contact SET first_name = '$first_name' ,last_name = '$last_name', mobile_number = '$mobile_number', address = '$address', service_provider = '$service_provider' WHERE contact_id = $contact_id ";
+        $update = "UPDATE contact SET first_name = '$first_name' ,last_name = '$last_name', mobile_number = '$mobile_number', address = '$address', service_provider = '$service_provider' WHERE id = $contact_id ";
 
         echo $update;
-        if($conn -> query($update) === true){
+        if($conn -> query($update)){
             echo "<br>"."Successfully Updated"."<br>";
         }
         else{
@@ -48,6 +50,6 @@
 
     $conn->close();
 
-    header("Location:index.php");
+    header("Location:dashboard.php");
 
 ?>

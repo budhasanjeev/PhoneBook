@@ -18,12 +18,14 @@ $group_member     = $_POST['member'];
 
 $member = implode(",",$group_member);
 
+$created_date = date("Y-m-d");
+
 if($operation_mode == 0){
-    $insert = "INSERT INTO contactGroup VALUES(null,'$group_name', '$member'); ";
+    $insert = "INSERT INTO contactgroup VALUES(null,'$group_name', '$member','$created_date',NULL ); ";
 
     echo $insert;
 
-    if($conn ->query($insert)=== true){
+    if($conn ->query($insert)){
 
         echo "<br>"."Successfully Added"."<br>";
 
@@ -34,10 +36,10 @@ if($operation_mode == 0){
 }
 if($operation_mode == 1){
 
-    $update = "UPDATE group SET group_name= '$group_name' ,group_member = '$group_member' WHERE group_id = $group_id ";
+    $update = "UPDATE contactgroup SET name = '$group_name' ,member = '$group_member' WHERE id = $group_id ";
 
     echo $update;
-    if($conn -> query($update) === true){
+    if($conn -> query($update)){
         echo "<br>"."Successfully Updated"."<br>";
     }
     else{

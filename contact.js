@@ -41,7 +41,7 @@ function deleteContact(id){
 
     var choice = confirm("Are you Sure you want to Delete?");
 
-    if(choice === true){
+    if(choice){
 
         $.ajax({
             type:"GET",

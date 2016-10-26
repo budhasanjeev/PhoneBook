@@ -1,13 +1,11 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: sanjeev-budha
- * Date: 3/1/16
- * Time: 10:14 AM
+ * User: Sanjeev
+ * Date: 10/26/2016
+ * Time: 10:22 PM
  */
-?>
 
-<?php
 
     include('databaseConnection.php');
 
@@ -15,7 +13,7 @@
     {
         $id = $_GET['del'];
 
-        $delete = "DELETE FROM contact WHERE id = $id";
+        $delete = "DELETE FROM contactgroup WHERE id = $id";
 
         $conn->query($delete);
 
@@ -24,5 +22,3 @@
 
         header("Location:dashboard.php");
     }
-
-?>

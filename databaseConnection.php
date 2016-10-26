@@ -10,7 +10,7 @@
 <?php
     $serverName = "localhost";
     $username = "root";
-    $password = "123";
+    $password = "";
     $databaseName = 'phone_book';
 
     // Create connection

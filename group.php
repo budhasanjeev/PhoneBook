@@ -5,6 +5,11 @@
  * Date: 3/14/16
  * Time: 10:33 AM
  */
+session_start();
+
+if(!isset($_SESSION["email"])){
+    header("Location: index.php");
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -17,7 +22,7 @@
 
     <link href="bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet">
     <link href="media/css/jquery.dataTables.min.css" type="text/css" rel="stylesheet">
-    <link href="dist/css/select2.min.css" type="text/css" rel="stylesheet">
+    <link href="select2.min.css" type="text/css" rel="stylesheet">
 
     <script src="bootstrap/js/jquery-1.12.0.min.js" type="text/javascript"></script>
     <script src="bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
@@ -25,7 +30,8 @@
     <script src="contact.js" type="text/javascript"></script>
 
     <script src="media/js/jquery.dataTables.min.js" type="text/javascript"></script>
-    <script src="dist/js/select2.min.js" type="text/javascript"></script>
+    <script src="select2.min.js" type="text/javascript"></script>
+    <script src="group.js" type="text/javascript"></script>
 
    <style>
         #container{
@@ -58,11 +64,15 @@
                     </a>
                 </li>
                 <li role="presentation">
-                    <a role="menuitem" tabindex="-1" href="index.php">
+                    <a role="menuitem" tabindex="-1" href="dashboard.php">
                         Contact
                     </a>
                 </li>
-
+                <li role="presentation">
+                    <a role="menuitem" tabindex="-1" href="logout.php">
+                        Logout
+                    </a>
+                </li>
             </ul>
         </div>
 
@@ -71,10 +81,7 @@
 
     <div class="jumbotron contact-div">
         <div style="margin-bottom: 1%">
-            <li id="add-group" type="button" class="btn btn-info glyphicon glyphicon-pencil" data-toggle="modal" data-target="#insert-group">Create New Group</li>
-<!--            <li id="add-group" type="button" class="btn btn-info glyphicon glyphicon-import" data-toggle="modal" data-target="#insert-group">Import Group from Excel</li>-->
-<!--            <li id="add-group" type="button" class="btn btn-info glyphicon glyphicon-export" data-toggle="modal" data-target="#insert-group">Export Group to Excel</li>-->
-<!--            <li id="add-group" type="button" class="btn btn-info glyphicon glyphicon-download" data-toggle="modal" data-target="#insert-group">Download Sample</li>-->
+            <li id="add-group" type="button" class="btn btn-info" data-toggle="modal" data-target="#insert-group"><span class=" glyphicon glyphicon-pencil"></span> Create New Group</li>
         </div>
 
         <div class="alert alert-success" role="alert" id="alertDeleted">
@@ -108,13 +115,12 @@
             while($row = mysqli_fetch_assoc($result)){
 
                 echo '
-                        <tr id="'.$row["group_id"].'">
-                            <td id="group_name">'.$row["group_name"].'</td>
-                            <td id="group_member">'.$row["group_member"].'</td>
+                        <tr id="'.$row["id"].'">
+                            <td id="group_name">'.$row["name"].'</td>
+                            <td id="group_member">'.$row["member"].'</td>
                             <td>
-                                <button id="edit-contact" type="button" class="glyphicon glyphicon-edit btn btn-primary " onclick="editGroup('.$row["group_id"].')" ></button>
-                                <button type="button" class="glyphicon glyphicon-minus-sign btn btn-danger" onclick="deleteGroup('.$row["group_id"].')" title="DELETE"></button>
-                                <button type="button" class="glyphicon glyphicon-send btn btn-success" onclick="sendMessage('.$row["group_id"].')" title="MESSAGE"></button>
+                                <button id="edit-contact" type="button" class="glyphicon glyphicon-edit btn btn-primary " onclick="editGroup('.$row["id"].')" ></button>
+                                <button type="button" class="glyphicon glyphicon-minus-sign btn btn-danger" onclick="deleteGroup('.$row["id"].')" title="DELETE"></button>
                             </td>
                         </tr>
                     ';
@@ -180,7 +186,7 @@
                                 while($row = mysqli_fetch_assoc($result)){
 
                                     echo '
-                                        <option value="'.$row["first_name"].' '.$row["middle_name"].' '.$row["last_name"].'">'.$row["first_name"].' '.$row["middle_name"].' '.$row["last_name"].'</option>
+                                        <option value="'.$row["first_name"].' '.$row["last_name"].'">'.$row["first_name"].' '.$row["last_name"].'</option>
                                     ';
                                 }
 
